@@ -21,12 +21,8 @@ services:
     - postgres_data:/var/lib/postgresql/data
     - /home/zpalfi/goinfre/subject:/subject
     - ./config/pg_hba.conf:/etc/postgresql/pg_hba.conf
-    # - ./scripts:/scripts
-    - ./scripts/automatic_table.py:/docker-entrypoint-initdb.d/automatic_table.py
-    - ./scripts/items_table.py:/docker-entrypoint-initdb.d/items_table.py
-    - ./scripts/table.py:/docker-entrypoint-initdb.d/table.py
-    - ./scripts/table_customers.py:/docker-entrypoint-initdb.d/table_customers.py
-    - ./scripts/custom_entrypoint.sh:/script/custom_entrypoint.sh
+    - ./scripts/python:/scripts/python
+    - ./scripts/create_tables.sh:/scripts/create_tables.sh
     restart: unless-stopped
     networks:
       - postgres_network

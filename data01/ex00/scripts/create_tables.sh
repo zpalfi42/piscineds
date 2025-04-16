@@ -9,8 +9,8 @@ echo "PostgreSQL is ready!"
 
 # Run Python scripts
 echo "Executing Python scripts..."
-python3 /docker-entrypoint-initdb.d/automatic_table.py
-python3 /docker-entrypoint-initdb.d/items_table.py
+python3 /scripts/python/customers.py
+python3 /scripts/python/items.py
 
 # Start PostgreSQL
 echo "Starting PostgreSQL..."

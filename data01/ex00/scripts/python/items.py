@@ -2,7 +2,7 @@
 """
 
 import os
-from table import create_table
+from table_items import create_table
 
 def create_tables_from_folder(path: str):
     """_summary_
