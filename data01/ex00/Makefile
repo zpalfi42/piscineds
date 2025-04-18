@@ -13,5 +13,5 @@ logs:
 down:
 	docker compose down
 rm_volume:
-	docker volume rm ex00_postgres_data ex00_pgadmin_data
+	docker volume rm ex00_postgres_data
 clean: down rm_volume

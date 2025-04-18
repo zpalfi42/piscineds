@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # image: postgres:16.4-alpine3.20
     container_name: postgres
     environment:
       LC_COLLATE: en_US.UTF-8
@@ -18,34 +17,35 @@ services:
     ports:
       - "5432:5432"
     volumes:
-    - postgres_data:/var/lib/postgresql/data
-    - /home/zpalfi/goinfre/subject:/subject
-    - ./config/pg_hba.conf:/etc/postgresql/pg_hba.conf
-    - ./scripts/python:/scripts/python
-    - ./scripts/create_tables.sh:/scripts/create_tables.sh
+      - postgres_data:/var/lib/postgresql/data
+      - /home/zpalfi/goinfre/subject:/subject
+      - ./config/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - ./scripts:/scripts
     restart: unless-stopped
     networks:
       - postgres_network
     command: ["postgres", "-c", "hba_file=/etc/postgresql/pg_hba.conf"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zpalfi -d piscineds -h localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  pgadmin:
-    image: dpage/pgadmin4:7.8
-    container_name: pgadmin
+  pgweb:
+    image: sosedoff/pgweb
+    container_name: pgweb
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: adminpw
+      PGWEB_DATABASE_URL: postgres://zpalfi:mysecretpassword@postgres:5432/piscineds?sslmode=disable
     ports:
-      - "5050:80"
+      - "5050:8081"
     depends_on:
-      - postgres
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
+      postgres:
+        condition: service_healthy
     networks:
       - postgres_network
 
 volumes:
   postgres_data:
-  pgadmin_data:
 
 networks:
   postgres_network:
