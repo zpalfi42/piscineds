@@ -74,18 +74,7 @@ def total_sales(cursor):
 
     plt.show()
 
-def chart():
-    conn = psycopg2.connect(
-        host="localhost",
-        database="piscineds",
-        user="zpalfi",
-        password="mysecretpassword",
-    )
-    cursor = conn.cursor()
-
-    number_of_customers(cursor)
-    total_sales(cursor)
-
+def average_spend(cursor):
     query = """
         SELECT DATE(event_time) as day, SUM(price) / COUNT (DISTINCT user_id) as avg
         FROM customers
@@ -125,6 +114,19 @@ def chart():
     plt.tick_params(axis='both', which='both', color='none')
 
     plt.show()
+
+def chart():
+    conn = psycopg2.connect(
+        host="localhost",
+        database="piscineds",
+        user="zpalfi",
+        password="mysecretpassword",
+    )
+    cursor = conn.cursor()
+
+    number_of_customers(cursor)
+    total_sales(cursor)
+    average_spend(cursor)
 
     cursor.close()
     conn.close()   
