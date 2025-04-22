@@ -102,40 +102,40 @@ def mustache():
     cursor.execute(query)
     data = cursor.fetchall()
     prices = [row[0] for row in data]
-    #mean = sum(prices) / len(prices)
-    #print(f"Mean price: {mean}")
-    #std = (sum((x - mean) ** 2 for x in prices) / len(prices)) ** 0.5
-    #print(f"Standard deviation: {std}")
-    #min_price = min(prices)
-    #print(f"Minimum price: {min_price}")
-    #first_quartile = sorted(prices)[len(prices) // 4]
-    #print(f"First quartile: {first_quartile}")
-    #median = sorted(prices)[len(prices) // 2]
-    #print(f"Median: {median}")
-    #third_quartile = sorted(prices)[3 * len(prices) // 4]
-    #print(f"Third quartile: {third_quartile}")
-    #max_price = max(prices)
-    #print(f"Maximum price: {max_price}")
+    mean = sum(prices) / len(prices)
+    print(f"Mean price: {mean}")
+    std = (sum((x - mean) ** 2 for x in prices) / len(prices)) ** 0.5
+    print(f"Standard deviation: {std}")
+    min_price = min(prices)
+    print(f"Minimum price: {min_price}")
+    first_quartile = sorted(prices)[len(prices) // 4]
+    print(f"First quartile: {first_quartile}")
+    median = sorted(prices)[len(prices) // 2]
+    print(f"Median: {median}")
+    third_quartile = sorted(prices)[3 * len(prices) // 4]
+    print(f"Third quartile: {third_quartile}")
+    max_price = max(prices)
+    print(f"Maximum price: {max_price}")
 
-    #first_box(cursor, prices)
-    #second_box(cursor, prices)
+    first_box(cursor, prices)
+    second_box(cursor, prices)
 
-    query = """
-        SELECT user_id, AVG(basket_total) AS avg_basket_price
-        FROM (
-            SELECT user_id, user_session, SUM(price) AS basket_total
-            FROM customers
-            WHERE event_type = 'purchase'
-            GROUP BY user_id, user_session
-        ) subquery
-        GROUP BY user_id;
-    """
+    # query = """
+    #     SELECT user_id, AVG(basket_total) AS avg_basket_price
+    #     FROM (
+    #         SELECT user_id, user_session, SUM(price) AS basket_total
+    #         FROM customers
+    #         WHERE event_type = 'purchase'
+    #         GROUP BY user_id, user_session
+    #     ) subquery
+    #     GROUP BY user_id;
+    # """
 
-    cursor.execute(query)
-    data = cursor.fetchall()
-    avg_prices = [row[1] for row in data]
+    # cursor.execute(query)
+    # data = cursor.fetchall()
+    # avg_prices = [row[1] for row in data]
 
-    third_box(cursor, avg_prices)
+    # third_box(cursor, avg_prices)
 
     cursor.close()
     conn.close()

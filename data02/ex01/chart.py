@@ -7,6 +7,7 @@ def number_of_customers(cursor):
     query = """
         SELECT DATE(event_time) AS day, COUNT(DISTINCT user_id) AS users
         FROM customers
+        WHERE event_type = 'purchase' 
         GROUP BY day
         ORDER BY day;
     """
@@ -33,7 +34,7 @@ def number_of_customers(cursor):
     plt.tick_params(axis='both', which='both', color='none')
 
     plt.margins(x=0, y=0.1)
-    plt.ylim(top=35000, bottom=0)
+    plt.ylim(bottom=0)
 
     plt.tight_layout()
 

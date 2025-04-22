@@ -6,4 +6,4 @@ FROM
     customers_backup_2 c
 LEFT JOIN 
     items i
-USING (product_id);
+USING (product_id); 
