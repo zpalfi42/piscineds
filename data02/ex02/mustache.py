@@ -1,4 +1,5 @@
 import psycopg2
+import numpy as np
 import matplotlib.pyplot as plt
 
 def first_box(cursor, prices):
@@ -60,30 +61,17 @@ def second_box(cursor, prices):
     plt.show()
 
 def third_box(cursor, avg_prices):
-    plt.figure(figsize=(10, 8))
-    box = plt.boxplot(avg_prices,
-        vert=False,
-        widths=0.8,
-        showfliers=False,
-        boxprops=dict(facecolor='#5c5c5b', color='#5c5c5b', linewidth=1.5),
-        medianprops=dict(color='#5c5c5b', linewidth=1.5),
-        patch_artist=True,)
+    plt.figure(figsize=(8, 6))
+    box = plt.boxplot(avg_prices, vert=False, widths=0.8, showfliers=True,
+                    patch_artist=True)
+    plt.tick_params(axis='both', which='both', color='none')
     for patch in box['boxes']:
-        patch.set_facecolor('#82ad7c')
-
+        patch.set_facecolor('lightblue')
     plt.gca().set_facecolor('#e7e7ed')
     plt.gca().set_axisbelow(True)
     plt.gca().axes.get_yaxis().set_visible(False)
     plt.grid(axis='x', color='white', linestyle='-', linewidth=1.2)
-
-    x_min, x_max = plt.xlim()
-    plt.xticks(range(int(x_min), int(x_max) + 1, 2))
-
-    plt.tick_params(axis='both', which='both', color='none')
-    plt.xlabel('price')
-
-    plt.margins(x=0.1, y=0)
-    plt.show() 
+    plt.show()
 
 def mustache():
     conn = psycopg2.connect(
@@ -120,22 +108,19 @@ def mustache():
     first_box(cursor, prices)
     second_box(cursor, prices)
 
-    # query = """
-    #     SELECT user_id, AVG(basket_total) AS avg_basket_price
-    #     FROM (
-    #         SELECT user_id, user_session, SUM(price) AS basket_total
-    #         FROM customers
-    #         WHERE event_type = 'purchase'
-    #         GROUP BY user_id, user_session
-    #     ) subquery
-    #     GROUP BY user_id;
-    # """
+    query = """
+        SELECT user_id, AVG(price) AS avg_cart_price
+        FROM customers
+        WHERE event_type = 'purchase'
+        GROUP BY user_id
+        HAVING AVG(price) BETWEEN 26 AND 43;
+    """
 
-    # cursor.execute(query)
-    # data = cursor.fetchall()
-    # avg_prices = [row[1] for row in data]
+    cursor.execute(query)
+    data = cursor.fetchall()
+    avg_prices = [float(row[1]) for row in data]
 
-    # third_box(cursor, avg_prices)
+    third_box(cursor, avg_prices)
 
     cursor.close()
     conn.close()
