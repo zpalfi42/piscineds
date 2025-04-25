@@ -5,8 +5,7 @@ def heatmap():
     csv_file = "../Train_knight.csv"
 
     df = pd.read_csv(csv_file)
-    df['knight'] = df['knight'].map({'Sith': 0, 'Jedi': 1})
-
+    df['knight'] = df['knight'].map({'Sith': 1, 'Jedi': 0})
 
     co_mtx = df.corr()
 
