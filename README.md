@@ -11,7 +11,7 @@ This repository contains all the projects and exercises completed during the 2-w
 🔹 **Data Engineer** – Basics of Python for data processing, scripting, and automation.  
 🔹 **Data Warehouse** – Data storage, database management, and SQL querying.  
 🔹 **Data Analyst** – Data exploration, manipulation with Pandas, and visualization with Matplotlib and Seaborn.  
-🔹 **Data Scientist Part 1** – Introduction to machine learning models using Scikit-learn.
+🔹 **Data Scientist Part 1** – Introduction to machine learning models using Scikit-learn  
 🔹 **Data Scientist Part 2** – Advanced machine learning concepts and project-based learning.
 
 ---
